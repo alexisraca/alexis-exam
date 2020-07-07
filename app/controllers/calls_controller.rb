@@ -2,6 +2,7 @@ class CallsController < ApplicationController
   def create
     call = Call.create(body: call_params)
     CallServiceWorker.perform_async(call.id)
+    render json: { status: :ok }, status: :ok
   end
 
   private
