@@ -8,7 +8,7 @@ class HeartbeatBuilderService
 
   def call
     begin
-      (valid? && save!) raise(ActiveRecord::RecordInvalid.new(self))
+      (valid? && save!) || raise(ActiveRecord::RecordInvalid.new(self))
     rescue ActiveRecord::RecordInvalid => exception
       @errors = exception.record.errors
     end
