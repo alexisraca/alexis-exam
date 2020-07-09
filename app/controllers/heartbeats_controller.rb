@@ -1,7 +1,11 @@
 class HeartbeatsController < ApplicationController
   def create
     @heartbeat = HeartbeatBuilderService.new(heartbeat_params).call
-    render json: { status: :ok }, status: :ok
+    if @heartbeat.current_calls.length < @heartbeat.capacity
+      render json: { status: :ok }, status: :ok
+    else
+      render json: { status: :service_unavailable }, status: :service_unavailable
+    end
   end
 
   def heartbeat_params
